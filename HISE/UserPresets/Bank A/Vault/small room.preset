@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Preset Version="1.0.0">
+  <Content Processor="Interface">
+    <Control type="ScriptButton" id="Delay Bypass" value="0.0"/>
+    <Control type="ScriptButton" id="Reverb Bypass" value="1.0"/>
+    <Control type="ScriptComboBox" id="DelayDivision" value="3.0"/>
+    <Control type="ScriptButton" id="Tempo Sync" value="0.0"/>
+    <Control type="ScriptButton" id="Bypass" value="0.0"/>
+    <Control type="ScriptSlider" id="Effect Mix" value="0.2800000011920929"/>
+    <Control type="ScriptSlider" id="Feedback" value="0.5099999904632568"/>
+    <Control type="ScriptSlider" id="Size" value="0.4199999868869781"/>
+    <Control type="ScriptSlider" id="Width" value="0.119999997317791"/>
+    <Control type="ScriptSlider" id="Tone" value="0.6600000262260437"/>
+    <Control type="ScriptSlider" id="Damp" value="0.1099999994039536"/>
+    <Control type="ScriptSlider" id="Delay" value="0.8399999737739563"/>
+  </Content>
+  <MidiAutomation/>
+  <MPEData Enabled="0"/>
+</Preset>

@@ -1,0 +1,22 @@
+# HISE / generated builds
+Binaries/
+Builds/
+Compiled/
+
+# Visual Studio
+.vs/
+*.sln
+*.vcxproj.user
+*.pdb
+*.ilk
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Compiled installers / binaries
+*.exe
+*.dll
+
+# Backups
+XmlPresetBackups/
