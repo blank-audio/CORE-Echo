@@ -65,10 +65,12 @@ using chain1_t = container::chain<parameter::empty,
 
 template <int NV>
 using soft_bypass2_t_ = container::chain<parameter::empty, 
-                                         wrap::fix<2, fx::reverb>, 
+                                         wrap::fix<2, filters::svf_eq<NV>>, 
+                                         fx::reverb, 
                                          filters::svf_eq<NV>, 
                                          chain1_t<NV>, 
-                                         core::gain<NV>>;
+                                         core::gain<NV>, 
+                                         filters::svf_eq<NV>>;
 
 template <int NV>
 using soft_bypass2_t = bypass::smoothed<20, soft_bypass2_t_<NV>>;
@@ -127,10 +129,12 @@ using chain4_t = container::chain<parameter::empty,
 
 template <int NV>
 using soft_bypass_t_ = container::chain<parameter::empty, 
-                                        wrap::fix<2, fx::reverb>, 
+                                        wrap::fix<2, filters::svf_eq<NV>>, 
+                                        fx::reverb, 
                                         filters::svf_eq<NV>, 
                                         chain4_t<NV>, 
-                                        core::gain<NV>>;
+                                        core::gain<NV>, 
+                                        filters::svf_eq<NV>>;
 
 template <int NV>
 using soft_bypass_t = bypass::smoothed<20, soft_bypass_t_<NV>>;
@@ -283,6 +287,40 @@ using Tempo_0 = parameter::from0To1<COREReverb_impl::tempo_sync1_t<NV>,
 template <int NV>
 using Tempo = parameter::chain<Tempo_InputRange, Tempo_0<NV>>;
 
+DECLARE_PARAMETER_RANGE_SKEW(HIGHCUT_0Range, 
+                             1000., 
+                             20000., 
+                             0.229905);
+
+template <int NV>
+using HIGHCUT_0 = parameter::from0To1<filters::svf_eq<NV>, 
+                                      0, 
+                                      HIGHCUT_0Range>;
+
+template <int NV> using HIGHCUT_1 = HIGHCUT_0<NV>;
+
+template <int NV>
+using HIGHCUT = parameter::chain<ranges::Identity, 
+                                 HIGHCUT_0<NV>, 
+                                 HIGHCUT_1<NV>>;
+
+DECLARE_PARAMETER_RANGE_SKEW(LOWCUT_0Range, 
+                             20., 
+                             1000., 
+                             0.229905);
+
+template <int NV>
+using LOWCUT_0 = parameter::from0To1<filters::svf_eq<NV>, 
+                                     0, 
+                                     LOWCUT_0Range>;
+
+template <int NV> using LOWCUT_1 = LOWCUT_0<NV>;
+
+template <int NV>
+using LOWCUT = parameter::chain<ranges::Identity, 
+                                LOWCUT_0<NV>, 
+                                LOWCUT_1<NV>>;
+
 template <int NV>
 using Feedback = parameter::plain<routing::receive<NV, stereo_cable<NV>>, 
                                   0>;
@@ -301,7 +339,9 @@ using COREReverb_t_plist = parameter::list<Size,
                                            TempoSync<NV>, 
                                            REVERBSWITCH<NV>, 
                                            DELAYSWITCH<NV>, 
-                                           Tempo<NV>>;
+                                           Tempo<NV>, 
+                                           HIGHCUT<NV>, 
+                                           LOWCUT<NV>>;
 }
 
 template <int NV>
@@ -324,12 +364,12 @@ template <int NV> struct instance: public COREReverb_impl::COREReverb_t_<NV>
 		
 		SNEX_METADATA_ID(COREReverb);
 		SNEX_METADATA_NUM_CHANNELS(2);
-		SNEX_METADATA_ENCODED_PARAMETERS(210)
+		SNEX_METADATA_ENCODED_PARAMETERS(246)
 		{
 			0x005C, 0x0000, 0x0000, 0x6953, 0x657A, 0x0000, 0x0000, 0x0000, 
             0x0000, 0x3F80, 0x0000, 0x3F00, 0x0000, 0x3F80, 0x0000, 0x0000, 
             0x005C, 0x0001, 0x0000, 0x6F54, 0x656E, 0x0000, 0x0000, 0x0000, 
-            0x0000, 0x3F80, 0x0000, 0x3F00, 0x0000, 0x3F80, 0x0000, 0x0000, 
+            0x0000, 0x3F80, 0x0000, 0x3F80, 0x0000, 0x3F80, 0x0000, 0x0000, 
             0x005C, 0x0002, 0x0000, 0x6957, 0x7464, 0x0068, 0x0000, 0x0000, 
             0x0000, 0x8000, 0x003F, 0x0000, 0x003F, 0x8000, 0x003F, 0x0000, 
             0x5C00, 0x0300, 0x0000, 0x4D00, 0x7869, 0x0000, 0x0000, 0x0000, 
@@ -342,7 +382,7 @@ template <int NV> struct instance: public COREReverb_impl::COREReverb_t_<NV>
             0x6361, 0x006B, 0x0000, 0x0000, 0x0000, 0x8000, 0x5C3F, 0x028F, 
             0x003F, 0x8000, 0x003F, 0x0000, 0x5C00, 0x0700, 0x0000, 0x4500, 
             0x6666, 0x6365, 0x4D74, 0x7869, 0x0000, 0x0000, 0x0000, 0x0000, 
-            0x3F80, 0x3D71, 0x3F0A, 0x0000, 0x3F80, 0x0000, 0x0000, 0x005C, 
+            0x3F80, 0x293C, 0x3F34, 0x0000, 0x3F80, 0x0000, 0x0000, 0x005C, 
             0x0008, 0x0000, 0x6554, 0x706D, 0x536F, 0x6E79, 0x0063, 0x0000, 
             0x0000, 0x0000, 0x8000, 0x003F, 0x8000, 0x003F, 0x8000, 0x003F, 
             0x0000, 0x5C00, 0x0900, 0x0000, 0x5200, 0x5645, 0x5245, 0x5342, 
@@ -352,7 +392,11 @@ template <int NV> struct instance: public COREReverb_impl::COREReverb_t_<NV>
             0x0000, 0x0000, 0x3F80, 0x0000, 0x3F80, 0x0000, 0x3F80, 0x0000, 
             0x0000, 0x005C, 0x000B, 0x0000, 0x6554, 0x706D, 0x006F, 0x0000, 
             0x8000, 0x003F, 0x9000, 0x0041, 0x4000, 0x0040, 0x8000, 0x003F, 
-            0x0000, 0x0000
+            0x0000, 0x5C00, 0x0C00, 0x0000, 0x4800, 0x4749, 0x4348, 0x5455, 
+            0x0000, 0x0000, 0x0000, 0x0000, 0x3F80, 0x0000, 0x3F80, 0x0000, 
+            0x3F80, 0x0000, 0x0000, 0x005C, 0x000D, 0x0000, 0x4F4C, 0x4357, 
+            0x5455, 0x0000, 0x0000, 0x0000, 0x0000, 0x3F80, 0x0000, 0x3F80, 
+            0x0000, 0x3F80, 0x0000, 0x0000, 0x0000, 0x0000
 		};
 		SNEX_METADATA_ENCODED_MOD_INFO(2)
 		{
@@ -371,15 +415,17 @@ template <int NV> struct instance: public COREReverb_impl::COREReverb_t_<NV>
 		auto& gain6 = this->getT(0).getT(1).getT(0).getT(0);                              // core::gain<NV>
 		auto& chain = this->getT(0).getT(1).getT(1);                                      // COREReverb_impl::chain_t<NV>
 		auto& soft_bypass2 = this->getT(0).getT(1).getT(1).getT(0);                       // COREReverb_impl::soft_bypass2_t<NV>
-		auto& reverb1 = this->getT(0).getT(1).getT(1).getT(0).getT(0);                    // fx::reverb
-		auto& svf_eq = this->getT(0).getT(1).getT(1).getT(0).getT(1);                     // filters::svf_eq<NV>
-		auto& chain1 = this->getT(0).getT(1).getT(1).getT(0).getT(2);                     // COREReverb_impl::chain1_t<NV>
-		auto& ms_encode = this->getT(0).getT(1).getT(1).getT(0).getT(2).getT(0);          // routing::ms_encode
-		auto& multi = this->getT(0).getT(1).getT(1).getT(0).getT(2).getT(1);              // COREReverb_impl::multi_t<NV>
-		auto& gain = this->getT(0).getT(1).getT(1).getT(0).getT(2).getT(1).getT(0);       // core::gain<NV>
-		auto& gain1 = this->getT(0).getT(1).getT(1).getT(0).getT(2).getT(1).getT(1);      // core::gain<NV>
-		auto& ms_decode = this->getT(0).getT(1).getT(1).getT(0).getT(2).getT(2);          // routing::ms_decode
-		auto& gain5 = this->getT(0).getT(1).getT(1).getT(0).getT(3);                      // core::gain<NV>
+		auto& svf_eq3 = this->getT(0).getT(1).getT(1).getT(0).getT(0);                    // filters::svf_eq<NV>
+		auto& reverb1 = this->getT(0).getT(1).getT(1).getT(0).getT(1);                    // fx::reverb
+		auto& svf_eq = this->getT(0).getT(1).getT(1).getT(0).getT(2);                     // filters::svf_eq<NV>
+		auto& chain1 = this->getT(0).getT(1).getT(1).getT(0).getT(3);                     // COREReverb_impl::chain1_t<NV>
+		auto& ms_encode = this->getT(0).getT(1).getT(1).getT(0).getT(3).getT(0);          // routing::ms_encode
+		auto& multi = this->getT(0).getT(1).getT(1).getT(0).getT(3).getT(1);              // COREReverb_impl::multi_t<NV>
+		auto& gain = this->getT(0).getT(1).getT(1).getT(0).getT(3).getT(1).getT(0);       // core::gain<NV>
+		auto& gain1 = this->getT(0).getT(1).getT(1).getT(0).getT(3).getT(1).getT(1);      // core::gain<NV>
+		auto& ms_decode = this->getT(0).getT(1).getT(1).getT(0).getT(3).getT(2);          // routing::ms_decode
+		auto& gain5 = this->getT(0).getT(1).getT(1).getT(0).getT(4);                      // core::gain<NV>
+		auto& svf_eq2 = this->getT(0).getT(1).getT(1).getT(0).getT(5);                    // filters::svf_eq<NV>
 		auto& chain2 = this->getT(0).getT(1).getT(2);                                     // COREReverb_impl::chain2_t<NV>
 		auto& soft_bypass3 = this->getT(0).getT(1).getT(2).getT(0);                       // COREReverb_impl::soft_bypass3_t<NV>
 		auto& softbypass_switch4 = this->getT(0).getT(1).getT(2).getT(0).getT(0);         // COREReverb_impl::softbypass_switch4_t<NV>
@@ -396,17 +442,19 @@ template <int NV> struct instance: public COREReverb_impl::COREReverb_t_<NV>
                            getT(0).getT(2).getT(1).getT(1);
 		auto& send1 = this->getT(0).getT(1).getT(2).getT(0).getT(0).getT(3);              // routing::send<NV, stereo_cable<NV>>
 		auto& soft_bypass = this->getT(0).getT(1).getT(2).getT(0).getT(1);                // COREReverb_impl::soft_bypass_t<NV>
-		auto& reverb = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(0);             // fx::reverb
-		auto& svf_eq1 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(1);            // filters::svf_eq<NV>
-		auto& chain4 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(2);             // COREReverb_impl::chain4_t<NV>
-		auto& ms_encode1 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(2).getT(0); // routing::ms_encode
-		auto& multi1 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(2).getT(1);     // COREReverb_impl::multi1_t<NV>
+		auto& svf_eq5 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(0);            // filters::svf_eq<NV>
+		auto& reverb = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(1);             // fx::reverb
+		auto& svf_eq1 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(2);            // filters::svf_eq<NV>
+		auto& chain4 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(3);             // COREReverb_impl::chain4_t<NV>
+		auto& ms_encode1 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(3).getT(0); // routing::ms_encode
+		auto& multi1 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(3).getT(1);     // COREReverb_impl::multi1_t<NV>
 		auto& gain4 = this->getT(0).getT(1).getT(2).getT(0).                              // core::gain<NV>
-                      getT(1).getT(2).getT(1).getT(0);
+                      getT(1).getT(3).getT(1).getT(0);
 		auto& gain7 = this->getT(0).getT(1).getT(2).getT(0).                              // core::gain<NV>
-                      getT(1).getT(2).getT(1).getT(1);
-		auto& ms_decode1 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(2).getT(2); // routing::ms_decode
-		auto& gain2 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(3);              // core::gain<NV>
+                      getT(1).getT(3).getT(1).getT(1);
+		auto& ms_decode1 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(3).getT(2); // routing::ms_decode
+		auto& gain2 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(4);              // core::gain<NV>
+		auto& svf_eq4 = this->getT(0).getT(1).getT(2).getT(0).getT(1).getT(5);            // filters::svf_eq<NV>
 		auto& gain10 = this->getT(1);                                                     // core::gain<NV>
 		
 		// Parameter Connections -------------------------------------------------------------------
@@ -449,6 +497,14 @@ template <int NV> struct instance: public COREReverb_impl::COREReverb_t_<NV>
 		
 		this->getParameterT(11).connectT(0, tempo_sync1); // Tempo -> tempo_sync1::Tempo
 		
+		auto& HIGHCUT_p = this->getParameterT(12);
+		HIGHCUT_p.connectT(0, svf_eq2); // HIGHCUT -> svf_eq2::Frequency
+		HIGHCUT_p.connectT(1, svf_eq4); // HIGHCUT -> svf_eq4::Frequency
+		
+		auto& LOWCUT_p = this->getParameterT(13);
+		LOWCUT_p.connectT(0, svf_eq3); // LOWCUT -> svf_eq3::Frequency
+		LOWCUT_p.connectT(1, svf_eq5); // LOWCUT -> svf_eq5::Frequency
+		
 		// Modulation Connections ------------------------------------------------------------------
 		
 		auto& xfader_p = xfader.getWrappedObject().getParameter();
@@ -471,6 +527,13 @@ template <int NV> struct instance: public COREReverb_impl::COREReverb_t_<NV>
 		;                            // gain6::Gain is automated
 		gain6.setParameterT(1, 20.); // core::gain::Smoothing
 		gain6.setParameterT(2, 0.);  // core::gain::ResetValue
+		
+		;                               // svf_eq3::Frequency is automated
+		svf_eq3.setParameterT(1, 1.);   // filters::svf_eq::Q
+		svf_eq3.setParameterT(2, 0.);   // filters::svf_eq::Gain
+		svf_eq3.setParameterT(3, 0.01); // filters::svf_eq::Smoothing
+		svf_eq3.setParameterT(4, 1.);   // filters::svf_eq::Mode
+		svf_eq3.setParameterT(5, 1.);   // filters::svf_eq::Enabled
 		
 		;                              // reverb1::Damping is automated
 		reverb1.setParameterT(1, 0.5); // fx::reverb::Width
@@ -495,6 +558,13 @@ template <int NV> struct instance: public COREReverb_impl::COREReverb_t_<NV>
 		gain5.setParameterT(1, 20.); // core::gain::Smoothing
 		gain5.setParameterT(2, 0.);  // core::gain::ResetValue
 		
+		;                               // svf_eq2::Frequency is automated
+		svf_eq2.setParameterT(1, 1.);   // filters::svf_eq::Q
+		svf_eq2.setParameterT(2, 0.);   // filters::svf_eq::Gain
+		svf_eq2.setParameterT(3, 0.01); // filters::svf_eq::Smoothing
+		svf_eq2.setParameterT(4, 0.);   // filters::svf_eq::Mode
+		svf_eq2.setParameterT(5, 1.);   // filters::svf_eq::Enabled
+		
 		softbypass_switch4.setParameterT(0, 0.); // container::chain::Switch
 		
 		; // receive1::Feedback is automated
@@ -511,6 +581,13 @@ template <int NV> struct instance: public COREReverb_impl::COREReverb_t_<NV>
 		
 		;                                  // fix_delay3::DelayTime is automated
 		fix_delay3.setParameterT(1, 512.); // core::fix_delay::FadeTime
+		
+		;                               // svf_eq5::Frequency is automated
+		svf_eq5.setParameterT(1, 1.);   // filters::svf_eq::Q
+		svf_eq5.setParameterT(2, 0.);   // filters::svf_eq::Gain
+		svf_eq5.setParameterT(3, 0.01); // filters::svf_eq::Smoothing
+		svf_eq5.setParameterT(4, 1.);   // filters::svf_eq::Mode
+		svf_eq5.setParameterT(5, 1.);   // filters::svf_eq::Enabled
 		
 		;                             // reverb::Damping is automated
 		reverb.setParameterT(1, 0.5); // fx::reverb::Width
@@ -535,22 +612,31 @@ template <int NV> struct instance: public COREReverb_impl::COREReverb_t_<NV>
 		gain2.setParameterT(1, 305.5); // core::gain::Smoothing
 		gain2.setParameterT(2, 0.);    // core::gain::ResetValue
 		
+		;                               // svf_eq4::Frequency is automated
+		svf_eq4.setParameterT(1, 1.);   // filters::svf_eq::Q
+		svf_eq4.setParameterT(2, 0.);   // filters::svf_eq::Gain
+		svf_eq4.setParameterT(3, 0.01); // filters::svf_eq::Smoothing
+		svf_eq4.setParameterT(4, 0.);   // filters::svf_eq::Mode
+		svf_eq4.setParameterT(5, 1.);   // filters::svf_eq::Enabled
+		
 		gain10.setParameterT(0, 2.5); // core::gain::Gain
 		gain10.setParameterT(1, 20.); // core::gain::Smoothing
 		gain10.setParameterT(2, 0.);  // core::gain::ResetValue
 		
 		this->setParameterT(0, 0.5);
-		this->setParameterT(1, 0.5);
+		this->setParameterT(1, 1.);
 		this->setParameterT(2, 0.5);
 		this->setParameterT(3, 0.);
 		this->setParameterT(4, 0.52);
 		this->setParameterT(5, 0.6);
 		this->setParameterT(6, 0.51);
-		this->setParameterT(7, 0.54);
+		this->setParameterT(7, 0.703754);
 		this->setParameterT(8, 1.);
 		this->setParameterT(9, 1.);
 		this->setParameterT(10, 1.);
 		this->setParameterT(11, 3.);
+		this->setParameterT(12, 1.);
+		this->setParameterT(13, 1.);
 	}
 	
 	static constexpr bool isPolyphonic() { return NV > 1; };

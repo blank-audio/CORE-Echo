@@ -1147,4 +1147,37 @@ PresetWatcher.startTimer(
 updateTempoUI();
 refreshPresetList();
 loadInitialPreset();
-hideSaveModal();
+hideSaveModal();function onNoteOn()
+{
+	
+}
+ function onNoteOff()
+{
+	
+}
+ function onController()
+{
+	
+}
+ function onTimer()
+{
+	
+}
+ function onControl(number, value)
+{
+    if (number == DelayDivision)
+    {
+        local tempoIndex = value - 1;
+
+        if (
+            tempoIndex >= 0 &&
+            tempoIndex < tempoNames.length
+        )
+        {
+            ScriptFX.setAttribute(
+                ScriptFX.Tempo,
+                tempoIndex
+            );
+        }
+    }
+}

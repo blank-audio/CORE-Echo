@@ -61,6 +61,27 @@
                       <Property ID="SmoothingTime" Value="20"/>
                     </Properties>
                     <Nodes>
+                      <Node ID="svf_eq3" FactoryPath="filters.svf_eq" Bypassed="0" Name="svf_eq3">
+                        <ComplexData>
+                          <Filters>
+                            <Filter Index="-1"/>
+                          </Filters>
+                        </ComplexData>
+                        <Parameters>
+                          <Parameter MinValue="20.0" MaxValue="1000.0" SkewFactor="0.2299045622348785"
+                                     ID="Frequency" TextToValueConverter="Frequency" DefaultValue="1000.0"
+                                     Automated="1"/>
+                          <Parameter MinValue="0.300000011920929" MaxValue="9.899999618530273" SkewFactor="0.2647178173065186"
+                                     ID="Q" Value="1.0"/>
+                          <Parameter MinValue="-18.0" MaxValue="18.0" ID="Gain" TextToValueConverter="Decibel"
+                                     Value="0.0"/>
+                          <Parameter MinValue="0.0" MaxValue="1.0" SkewFactor="0.3010300099849701"
+                                     ID="Smoothing" Value="0.009999999776482582"/>
+                          <Parameter MinValue="0.0" MaxValue="4.0" StepSize="1.0" ID="Mode" Value="1.0"
+                                     DefaultValue="0.0"/>
+                          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="1.0"/>
+                        </Parameters>
+                      </Node>
                       <Node ID="reverb1" FactoryPath="fx.reverb" Bypassed="0" Name="reverb1">
                         <Parameters>
                           <Parameter MinValue="0.0" MaxValue="1.0" ID="Damping" DefaultValue="0.5"
@@ -133,6 +154,26 @@
                                      SkewFactor="5.422270774841309" ID="ResetValue" Value="0.0"/>
                         </Parameters>
                       </Node>
+                      <Node ID="svf_eq2" FactoryPath="filters.svf_eq" Bypassed="0" Name="svf_eq2">
+                        <ComplexData>
+                          <Filters>
+                            <Filter Index="-1"/>
+                          </Filters>
+                        </ComplexData>
+                        <Parameters>
+                          <Parameter MinValue="1000.0" MaxValue="20000.0" SkewFactor="0.2299045622348785"
+                                     ID="Frequency" TextToValueConverter="Frequency" DefaultValue="1000.0"
+                                     Automated="1"/>
+                          <Parameter MinValue="0.300000011920929" MaxValue="9.899999618530273" SkewFactor="0.2647178173065186"
+                                     ID="Q" Value="1.0"/>
+                          <Parameter MinValue="-18.0" MaxValue="18.0" ID="Gain" TextToValueConverter="Decibel"
+                                     Value="0.0"/>
+                          <Parameter MinValue="0.0" MaxValue="1.0" SkewFactor="0.3010300099849701"
+                                     ID="Smoothing" Value="0.009999999776482582"/>
+                          <Parameter MinValue="0.0" MaxValue="4.0" StepSize="1.0" ID="Mode" Value="0.0"/>
+                          <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="1.0"/>
+                        </Parameters>
+                      </Node>
                     </Nodes>
                     <Parameters/>
                   </Node>
@@ -148,7 +189,7 @@
                     </Properties>
                     <Nodes>
                       <Node ID="softbypass_switch4" FactoryPath="container.chain" ShowParameters="0"
-                            Bypassed="0" Name="softbypass_switch2">
+                            Bypassed="0" Name="softbypass_switch2" Folded="1">
                         <Nodes>
                           <Node ID="receive1" FactoryPath="routing.receive" Bypassed="0" Name="receive1">
                             <Parameters>
@@ -257,6 +298,27 @@
                           <Property ID="SmoothingTime" Value="20"/>
                         </Properties>
                         <Nodes>
+                          <Node ID="svf_eq5" FactoryPath="filters.svf_eq" Bypassed="0" Name="svf_eq3">
+                            <ComplexData>
+                              <Filters>
+                                <Filter Index="-1"/>
+                              </Filters>
+                            </ComplexData>
+                            <Parameters>
+                              <Parameter MinValue="20.0" MaxValue="1000.0" SkewFactor="0.2299045622348785"
+                                         ID="Frequency" TextToValueConverter="Frequency" DefaultValue="1000.0"
+                                         Automated="1"/>
+                              <Parameter MinValue="0.300000011920929" MaxValue="9.899999618530273" SkewFactor="0.2647178173065186"
+                                         ID="Q" Value="1.0"/>
+                              <Parameter MinValue="-18.0" MaxValue="18.0" ID="Gain" TextToValueConverter="Decibel"
+                                         Value="0.0"/>
+                              <Parameter MinValue="0.0" MaxValue="1.0" SkewFactor="0.3010300099849701"
+                                         ID="Smoothing" Value="0.009999999776482582"/>
+                              <Parameter MinValue="0.0" MaxValue="4.0" StepSize="1.0" ID="Mode" Value="1.0"
+                                         DefaultValue="0.0"/>
+                              <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="1.0"/>
+                            </Parameters>
+                          </Node>
                           <Node ID="reverb" FactoryPath="fx.reverb" Bypassed="0" Name="reverb">
                             <Parameters>
                               <Parameter MinValue="0.0" MaxValue="1.0" ID="Damping" TextToValueConverter="NormalizedPercentage"
@@ -342,6 +404,26 @@
                                          SkewFactor="5.422270774841309" ID="ResetValue" Value="0.0"/>
                             </Parameters>
                           </Node>
+                          <Node ID="svf_eq4" FactoryPath="filters.svf_eq" Bypassed="0" Name="svf_eq2">
+                            <ComplexData>
+                              <Filters>
+                                <Filter Index="-1"/>
+                              </Filters>
+                            </ComplexData>
+                            <Parameters>
+                              <Parameter MinValue="1000.0" MaxValue="20000.0" SkewFactor="0.2299045622348785"
+                                         ID="Frequency" TextToValueConverter="Frequency" DefaultValue="1000.0"
+                                         Automated="1"/>
+                              <Parameter MinValue="0.300000011920929" MaxValue="9.899999618530273" SkewFactor="0.2647178173065186"
+                                         ID="Q" Value="1.0"/>
+                              <Parameter MinValue="-18.0" MaxValue="18.0" ID="Gain" TextToValueConverter="Decibel"
+                                         Value="0.0"/>
+                              <Parameter MinValue="0.0" MaxValue="1.0" SkewFactor="0.3010300099849701"
+                                         ID="Smoothing" Value="0.009999999776482582"/>
+                              <Parameter MinValue="0.0" MaxValue="4.0" StepSize="1.0" ID="Mode" Value="0.0"/>
+                              <Parameter MinValue="0.0" MaxValue="1.0" StepSize="1.0" ID="Enabled" Value="1.0"/>
+                            </Parameters>
+                          </Node>
                         </Nodes>
                         <Parameters/>
                       </Node>
@@ -378,7 +460,7 @@
           <Connection NodeId="reverb" ParameterId="Size"/>
         </Connections>
       </Parameter>
-      <Parameter ID="Tone" MinValue="0.0" MaxValue="1.0" Value="0.5" DefaultValue="0.9">
+      <Parameter ID="Tone" MinValue="0.0" MaxValue="1.0" Value="1.0" DefaultValue="0.9">
         <Connections>
           <Connection NodeId="svf_eq" ParameterId="Frequency"/>
           <Connection NodeId="svf_eq1" ParameterId="Frequency"/>
@@ -411,13 +493,12 @@
           <Connection NodeId="fix_delay1" ParameterId="DelayTime"/>
         </Connections>
       </Parameter>
-      <Parameter ID="Feedback" MinValue="0.0" MaxValue="1.0" Value="0.5099999904632568"
-                 DefaultValue="0.5">
+      <Parameter ID="Feedback" MinValue="0.0" MaxValue="1.0" Value="0.0" DefaultValue="0.5">
         <Connections>
           <Connection NodeId="receive1" ParameterId="Feedback"/>
         </Connections>
       </Parameter>
-      <Parameter ID="Effect Mix" MinValue="0.0" MaxValue="1.0" Value="0.5400000214576721"
+      <Parameter ID="Effect Mix" MinValue="0.0" MaxValue="1.0" Value="0.7037542114257813"
                  DefaultValue="0.5">
         <Connections>
           <Connection NodeId="xfader" ParameterId="Value"/>
@@ -447,6 +528,20 @@
                  Value="3.0" DefaultValue="1.0">
         <Connections>
           <Connection NodeId="tempo_sync1" ParameterId="Tempo"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="HIGH CUT" MinValue="0.0" MaxValue="1.0" ModColour="0" ExternalModulation="Disabled"
+                 DefaultValue="" Value="0.0">
+        <Connections>
+          <Connection NodeId="svf_eq2" ParameterId="Frequency"/>
+          <Connection NodeId="svf_eq4" ParameterId="Frequency"/>
+        </Connections>
+      </Parameter>
+      <Parameter ID="LOW CUT" MinValue="0.0" MaxValue="1.0" ModColour="0" ExternalModulation="Disabled"
+                 DefaultValue="" Value="1.0">
+        <Connections>
+          <Connection NodeId="svf_eq3" ParameterId="Frequency"/>
+          <Connection NodeId="svf_eq5" ParameterId="Frequency"/>
         </Connections>
       </Parameter>
     </Parameters>
